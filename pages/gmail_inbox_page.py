@@ -1,15 +1,14 @@
-import pytest
 from playwright.sync_api import Page, TimeoutError, expect
-from config.constants import PAGE_LOAD_TIMEOUT, ACTION_TIMEOUT
 from utils.report import report
+from config.constants import  USERNAME
 
 
 class GmailInboxPage:
     INBOX_URL = "https://mail.google.com/mail/u/0/#inbox"
 
-    def __init__(self, page: Page, user_name):
+    def __init__(self, page: Page):
        self.page = page
-       self.inbox_title = f"{user_name}@gmail.com"
+       self.inbox_title = f"{USERNAME}@gmail.com"
 
     def is_logged_in(self):
         try:

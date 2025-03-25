@@ -6,19 +6,21 @@ from pages.gmail_login_page import GmailLoginPage
 
 @pytest.mark.smoke
 def test_successful_gmail_login(page):
+    should_succeed = True
     login_page = GmailLoginPage(page)
-    inbox_page = GmailInboxPage(page,USERNAME)
+
     login_page.navigate()
     login_page.enter_email(USERNAME)
-    login_page.enter_password(PASSWORD)
-    assert inbox_page.is_logged_in(), "Failed to log in to Gmail"
+    assert login_page.enter_password(PASSWORD, should_succeed) , "Failed to log in to Gmail"
+
 
 @pytest.mark.smoke
 def test_is_failed_authentication(page):
+    should_succeed = False
     login_page = GmailLoginPage(page)
     login_page.navigate()
     login_page.enter_email(USERNAME)
-    login_page.enter_password(BAD_PASSWORD)
-    assert login_page.is_failed_authentication(), "Negative login to Gmail failed"
+    assert login_page.enter_password(BAD_PASSWORD, should_succeed), "Negative login to Gmail failed"
+
 
 

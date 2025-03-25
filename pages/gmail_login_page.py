@@ -51,18 +51,25 @@ class GmailLoginPage:
             report.log_error(f"Test failed: {e}")
             raise e
 
-    def enter_password(self, password):
+    def enter_password(self, password, should_succeed):
         try:
              report.log_info(f"Fill the password field with: {password}")
              self.page.fill(self.password, password, timeout=ACTION_TIMEOUT)
              report.log_info("Click the next button")
              self.page.click(self.next_button, timeout=ACTION_TIMEOUT)
+
         except TimeoutError as e:
             report.log_error(f"Timeout error: {e}")
             raise e
         except Exception as e:
             report.log_error(f"Test failed: {e}")
             raise e
+        finally:
+            if should_succeed:
+                return GmailInboxPage(self.page).is_logged_in()
+            else:
+                return self.is_failed_authentication()
+
 
 
 
